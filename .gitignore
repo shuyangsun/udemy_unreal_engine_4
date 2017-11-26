@@ -6,3 +6,5 @@ Build
 Intermediate
 Saved
 DerivedDataCache
+*.VC.db
+*.VC.opendb
