@@ -22,5 +22,5 @@ UE generated files:
 prj_name/Content/StarterContent/
 
 VS generated files:
-*.VC.db
-*.VC.opendb
+* *.VC.db
+* *.VC.opendb
