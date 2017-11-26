@@ -1,5 +1,5 @@
 
-# Unreal Engine 4 Generated Files
+# UE Generated Files
 
 .vs/
 Debug/
@@ -9,6 +9,8 @@ Build
 Intermediate
 Saved
 DerivedDataCache
+section_03/build_escape/Content/
+
+# VS Generated Files
 *.VC.db
 *.VC.opendb
-section_03/build_escape/Content/StarterContent/
