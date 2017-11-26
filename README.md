@@ -19,7 +19,7 @@ UE generated files:
 * DerivedDataCache
 * Intermediate
 * Saved
-prj_name/Content/StarterContent/
+* prj_name/Content/StarterContent/
 
 VS generated files:
 * *.VC.db
