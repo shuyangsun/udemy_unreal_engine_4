@@ -9,3 +9,18 @@ Write up the requirements:
 * What tasks will the user be asked to do?
 * Any performance limits worth mentioning?
 * What assets (art, sound, story text) do we need?
+
+## 3.58 .gitignore
+
+UE generated files:
+
+* Build
+* Binaries
+* DerivedDataCache
+* Intermediate
+* Saved
+prj_name/Content/StarterContent/
+
+VS generated files:
+*.VC.db
+*.VC.opendb
