@@ -21,7 +21,8 @@ void UPositionReporter::BeginPlay()
   AActor *owner{ GetOwner() };
   FString owner_name{ owner->GetName() };
   FVector pos{ owner->GetTransform().GetLocation() };
-  UE_LOG(LogTemp, Warning, TEXT("%s is at %s."), pos.ToString());
+  UE_LOG(LogTemp, Warning, TEXT("%s.GetTransform().GetLocation()=(%s)"), *owner_name, *(pos.ToString()));
+  UE_LOG(LogTemp, Warning, TEXT("%s.GetActorLocation()=(%s)"), *owner_name, *(owner->GetActorLocation().ToString()));
 }
 
 
