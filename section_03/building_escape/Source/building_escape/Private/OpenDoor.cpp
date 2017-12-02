@@ -19,14 +19,10 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
-  AActor * const owner{ GetOwner() };
-  FString const owner_name{ owner->GetName() };
-  FRotator const rotation{ owner->GetActorRotation() };
+  owner_ = GetOwner();
+  FString const owner_name{ owner_->GetName() };
+  FRotator const rotation{ owner_->GetActorRotation() };
   UE_LOG(LogTemp, Warning, TEXT("%s roatation = %s."), *owner_name, *rotation.ToString());
-
-  FRotator target_rotation{ 0.0f, 75.0f, 0.0f };
-  owner->SetActorRotation(target_rotation);
-  UE_LOG(LogTemp, Warning, TEXT("%s roatation = %s."), *owner_name, *owner->GetActorRotation().ToString());
 	// ...
 	
 }
@@ -36,7 +32,18 @@ void UOpenDoor::BeginPlay()
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
+  bool const is_overlapping{ pressure_plate->IsOverlappingActor(actor_that_opens_door) };
+  if (is_overlapping) {
+    open_door_(75.0f);
+  } else {
+    open_door_(0.0f);
+  }
 	// ...
+}
+
+void UOpenDoor::open_door_(float const rotation_angle) const
+{
+  FRotator target_rotation{ 0.0f, rotation_angle, 0.0f };
+  owner_->SetActorRotation(target_rotation);
 }
 
