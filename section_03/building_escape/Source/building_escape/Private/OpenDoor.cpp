@@ -2,6 +2,7 @@
 
 #include "OpenDoor.h"
 #include "GameFramework/Actor.h"
+#include "Engine/World.h"
 
 
 // Sets default values for this component's properties
@@ -23,8 +24,10 @@ void UOpenDoor::BeginPlay()
   FString const owner_name{ owner_->GetName() };
   FRotator const rotation{ owner_->GetActorRotation() };
   UE_LOG(LogTemp, Warning, TEXT("%s roatation = %s."), *owner_name, *rotation.ToString());
-	// ...
 	
+  UWorld *world{ GetWorld() };
+  AActor *pawn{ world->GetFirstPlayerController()->GetPawn() };
+  actor_that_opens_door = pawn;
 }
 
 
@@ -38,7 +41,6 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
   } else {
     open_door_(0.0f);
   }
-	// ...
 }
 
 void UOpenDoor::open_door_(float const rotation_angle) const
