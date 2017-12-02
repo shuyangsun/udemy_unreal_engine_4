@@ -18,9 +18,10 @@ UPositionReporter::UPositionReporter()
 void UPositionReporter::BeginPlay()
 {
 	Super::BeginPlay();
-  FString owner_name{ GetOwner()->GetName() };
-  UE_LOG(LogTemp, Warning, TEXT("PositionReport begin play on \"%s\"."), *owner_name);
-	
+  AActor *owner{ GetOwner() };
+  FString owner_name{ owner->GetName() };
+  FVector pos{ owner->GetTransform().GetLocation() };
+  UE_LOG(LogTemp, Warning, TEXT("%s is at %s."), pos.ToString());
 }
 
 

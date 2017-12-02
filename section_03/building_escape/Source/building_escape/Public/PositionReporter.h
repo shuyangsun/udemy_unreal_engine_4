@@ -12,7 +12,7 @@ class BUILDING_ESCAPE_API UPositionReporter : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UPositionReporter();
 
