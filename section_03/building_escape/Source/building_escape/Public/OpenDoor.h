@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Engine/TriggerVolume.h"
+#include "Engine/World.h"
 #include "OpenDoor.generated.h"
 
 
@@ -26,10 +27,11 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
+  UWorld *world_{ nullptr };
   AActor *owner_{ nullptr };
 
-  UPROPERTY(VisibleAnywhere)
-  float open_angle = 90.0f;
+  UPROPERTY(EditAnywhere)
+  float open_angle_ = -90.0f;
 
   UPROPERTY(EditAnywhere)
   ATriggerVolume *pressure_plate;
@@ -37,5 +39,12 @@ private:
   UPROPERTY(EditAnywhere)
   AActor *actor_that_opens_door;
 
-  void open_door_(float const rotation_angle) const;
+  UPROPERTY(EditAnywhere)
+  float door_close_delay = 1.0f;
+
+  float last_door_open_time_{ -1.0f };
+
+  void open_door_();
+  void close_door_() const;
+  void set_door_rotation_angle_(float const rotation_angle) const;
 };

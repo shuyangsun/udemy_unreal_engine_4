@@ -2,7 +2,6 @@
 
 #include "OpenDoor.h"
 #include "GameFramework/Actor.h"
-#include "Engine/World.h"
 
 
 // Sets default values for this component's properties
@@ -11,8 +10,6 @@ UOpenDoor::UOpenDoor()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -25,8 +22,8 @@ void UOpenDoor::BeginPlay()
   FRotator const rotation{ owner_->GetActorRotation() };
   UE_LOG(LogTemp, Warning, TEXT("%s roatation = %s."), *owner_name, *rotation.ToString());
 	
-  UWorld *world{ GetWorld() };
-  AActor *pawn{ world->GetFirstPlayerController()->GetPawn() };
+  world_ = GetWorld();
+  AActor *pawn{ world_->GetFirstPlayerController()->GetPawn() };
   actor_that_opens_door = pawn;
 }
 
@@ -37,13 +34,29 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
   bool const is_overlapping{ pressure_plate->IsOverlappingActor(actor_that_opens_door) };
   if (is_overlapping) {
-    open_door_(75.0f);
+    open_door_();
   } else {
-    open_door_(0.0f);
+    float const time_elapsed{ world_->GetTimeSeconds() - last_door_open_time_ };
+    bool const should_close{ last_door_open_time_ >= 0.0f && time_elapsed >= door_close_delay };
+    if (should_close) {
+      close_door_();
+    }
   }
 }
 
-void UOpenDoor::open_door_(float const rotation_angle) const
+void UOpenDoor::open_door_()
+{
+  last_door_open_time_ = world_->GetTimeSeconds();
+  set_door_rotation_angle_(open_angle_);
+}
+
+void UOpenDoor::close_door_() const
+{
+  set_door_rotation_angle_(0.0f);
+}
+
+
+void UOpenDoor::set_door_rotation_angle_(float const rotation_angle) const
 {
   FRotator target_rotation{ 0.0f, rotation_angle, 0.0f };
   owner_->SetActorRotation(target_rotation);
